@@ -5,7 +5,7 @@ if [[ $VERBOSE ]]; then
   fluentdargs="-vv"
 else
   set -e
-  fluentdargs=  
+  fluentdargs=
 fi
 
 OPS_COPY_HOST="${OPS_COPY_HOST:-$ES_COPY_HOST}"
@@ -31,6 +31,9 @@ if [ "$ES_COPY" = "true" ] ; then
     # user wants to split the output of fluentd into two different elasticsearch
     # user will provide the necessary COPY environment variables as above
     cp $HOME/fluentd_es_copy_config.conf $HOME/fluentd_es_ops_copy_config.conf $CFG_OUT_DIR
+elif [ "$ES_COPY" = "forward" ] ; then
+  cp $HOME/fluentd_unsecure_forward_config.conf $CFG_OUT_DIR/fluentd_es_copy_config.conf
+  cp $HOME/fluentd_unsecure_forward_config.conf $CFG_OUT_DIR/fluentd_es_ops_copy_config.conf
 else
     # create empty files for the ES copy config
     rm -f $CFG_OUT_DIR/fluentd_es_copy_config.conf $CFG_OUT_DIR/fluentd_es_ops_copy_config.conf
