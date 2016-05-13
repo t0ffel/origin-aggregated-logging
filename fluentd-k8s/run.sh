@@ -25,5 +25,8 @@ CFG_OUT_DIR=/etc/fluent/configs.d/output
 mkdir -p $CFG_IN_DIR/docker
 mkdir -p $CFG_IN_DIR/syslog
 
+git clone https://github.com/t0ffel/fluent-plugin-kubernetes_metadata_input
+cd fluent-plugin-kubernetes_metadata_input
+rake install
 
 fluentd $fluentdargs

@@ -20,6 +20,7 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
   ruby \
   ruby-devel \
   libcurl-devel \
+  git \
   make && \
   mkdir -p ${HOME} && \
   gem install --no-ri bundler fluentd fluent-plugin-elasticsearch
