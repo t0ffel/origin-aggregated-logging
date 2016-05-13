@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: logging-fluentd-bc
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      build: logging-fluentd
+      component: development
+      logging-infra: development
+      provider: openshift
+    name: k8s-fluentd
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: logging-fluentd:latest
+    resources: {}
+    source:
+      contextDir: fluentd-k8s
+      git:
+        ref: master
+        uri: https://github.com/t0ffel/origin-aggregated-logging
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: centos:7
+      type: Docker
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
