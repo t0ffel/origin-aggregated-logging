@@ -25,6 +25,7 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
   make && \
   mkdir -p ${HOME} && \
   gem install --no-ri bundler fluentd fluent-plugin-elasticsearch && \
+  bundle install && \
   git clone https://github.com/t0ffel/fluent-plugin-kubernetes_metadata_input && \
   cd fluent-plugin-kubernetes_metadata_input && \
   rake install
