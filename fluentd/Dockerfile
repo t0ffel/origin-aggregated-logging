@@ -29,7 +29,7 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
 ADD fluent.conf /etc/fluent/fluent.conf
 ADD configs.d/ /etc/fluent/configs.d/
 ADD run.sh generate_throttle_configs.rb \
-    fluentd_es_copy_config.conf fluentd_es_ops_copy_config.conf \
+    fluentd_es_copy_config.conf fluentd_es_ops_copy_config.conf fluentd_unsecure_forward_config.conf \
     ${HOME}/
 
 WORKDIR ${HOME}
