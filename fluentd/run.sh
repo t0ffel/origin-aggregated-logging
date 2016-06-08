@@ -40,5 +40,7 @@ else
     touch $CFG_OUT_DIR/fluentd_es_copy_config.conf $CFG_OUT_DIR/fluentd_es_ops_copy_config.conf
 fi
 
+gem install /opt/app-root/src/fluent-plugin-secure-forward-0.4.1.gem
+
 
 fluentd $fluentdargs
