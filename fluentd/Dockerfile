@@ -24,7 +24,7 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
   make && \
   mkdir -p ${HOME} && \
   gem install --no-ri fluentd:${FLUENTD_VERSION} fluent-plugin-kubernetes_metadata_filter fluent-plugin-elasticsearch fluent-plugin-flatten-hash && \
-  gem install --no-ri fluent-mixin-config-placeholders resolve-hostname proxifier
+  gem install --no-ri fluent-mixin-config-placeholders resolve-hostname proxifier && \
   mkdir -p ${THROTTLE_CONF_LOCATION} && \
   touch ${THROTTLE_CONF_LOCATION}/settings
 
