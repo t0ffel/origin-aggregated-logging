@@ -7,7 +7,8 @@ ENV HOME=/opt/app-root/src \
   RUBY_VERSION=2.0 \
   FLUENTD_VERSION=0.12.25 \
   GEM_HOME=/opt/app-root/src \
-  THROTTLE_CONF_LOCATION=/etc/throttle-settings
+  THROTTLE_CONF_LOCATION=/etc/throttle-settings \
+  GEM_PATH=/opt/app-root/src
 
 LABEL io.k8s.description="Fluentd container for collecting of docker container logs" \
   io.k8s.display-name="Fluentd 0.12.6" \
@@ -27,13 +28,13 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
   touch ${THROTTLE_CONF_LOCATION}/settings
 
 ADD fluent.conf /etc/fluent/fluent.conf
-ADD fluent-plugin-secure-forward-0.4.1.gem ${HOME}/
+COPY fluent-plugin-secure-forward-0.4.1.gem ${HOME}/
 ADD configs.d/ /etc/fluent/configs.d/
 ADD run.sh generate_throttle_configs.rb \
     fluentd_es_copy_config.conf fluentd_es_ops_copy_config.conf fluentd_unsecure_forward_config.conf \
     ${HOME}/
 
-RUN gem install --no-ri ${HOME}/fluent-plugin-secure-forward-0.4.1.gem
+RUN gem install --local --no-ri ${HOME}/fluent-plugin-secure-forward-0.4.1.gem
 
 WORKDIR ${HOME}
 
