@@ -33,6 +33,8 @@ ADD run.sh generate_throttle_configs.rb \
     fluentd_es_copy_config.conf fluentd_es_ops_copy_config.conf fluentd_unsecure_forward_config.conf \
     ${HOME}/
 
+RUN gem install --no-ri ${HOME}/fluent-plugin-secure-forward-0.4.1.gem
+
 WORKDIR ${HOME}
 
 CMD ["sh", "run.sh"]
