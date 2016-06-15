@@ -73,11 +73,11 @@ def close_file(project, isSyslog)
       file.write(<<-CONF)
   exclude_path ["/var/log/messages*.gz"]
   tag system.*
-  #format multiline
+  format multiline
   # Begin possible multiline match: "Mmm DD HH:MM:SS "
-  #format_firstline /^[A-Z][a-z]{2}\\s+[0-3]?[0-9]\\s+[0-2][0-9]:[0-5][0-9]:[0-6][0-9]\\s/
+  format_firstline /^[A-Z][a-z]{2}\\s+[0-3]?[0-9]\\s+[0-2][0-9]:[0-5][0-9]:[0-6][0-9]\\s/
   # extract metadata from same line that matched format_firstline
-  format /^(?<time>\\S+\\s+\\S+\\s+\\S+)\\s+(?<host>\\S+)\\s+(?<ident>[\\w\\/\\.\\-]*)(?:\\[(?<pid>[0-9]+)\\])?[^\\:]*\\:\\s*(?<message>.*)$/
+  format1 /^(?<time>\\S+\\s+\\S+\\s+\\S+)\\s+(?<host>\\S+)\\s+(?<ident>[\\w\\/\\.\\-]*)(?:\\[(?<pid>[0-9]+)\\])?[^\\:]*\\:\\s*(?<message>.*)$/
   time_format %b %d %H:%M:%S
   read_from_head true
   keep_time_key true
@@ -133,11 +133,11 @@ def create_default_syslog()
   exclude_path ["/var/log/messages*.gz"]
   pos_file /var/log/node.log.pos
   tag system.*
-  #format multiline
+  format multiline
   # Begin possible multiline match: "Mmm DD HH:MM:SS "
-  #format_firstline /^[A-Z][a-z]{2}\\s+[0-3]?[0-9]\\s+[0-2][0-9]:[0-5][0-9]:[0-6][0-9]\\s/
+  format_firstline /^[A-Z][a-z]{2}\\s+[0-3]?[0-9]\\s+[0-2][0-9]:[0-5][0-9]:[0-6][0-9]\\s/
   # extract metadata from same line that matched format_firstline
-  format /^(?<time>\\S+\\s+\\S+\\s+\\S+)\\s+(?<host>\\S+)\\s+(?<ident>[\\w\\/\\.\\-]*)(?:\\[(?<pid>[0-9]+)\\])?[^\\:]*\\:\\s*(?<message>.*)$/
+  format1 /^(?<time>\\S+\\s+\\S+\\s+\\S+)\\s+(?<host>\\S+)\\s+(?<ident>[\\w\\/\\.\\-]*)(?:\\[(?<pid>[0-9]+)\\])?[^\\:]*\\:\\s*(?<message>.*)$/
   time_format %b %d %H:%M:%S
   read_from_head true
   keep_time_key true
