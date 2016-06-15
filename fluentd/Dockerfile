@@ -23,19 +23,20 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
   libcurl-devel \
   make && \
   mkdir -p ${HOME} && \
-  gem install --no-ri fluentd:${FLUENTD_VERSION} fluent-plugin-kubernetes_metadata_filter fluent-plugin-elasticsearch fluent-plugin-flatten-hash && \
-  gem install --no-ri fluent-mixin-config-placeholders resolve-hostname proxifier && \
+  gem install --no-ri fluentd:${FLUENTD_VERSION} fluent-plugin-elasticsearch fluent-plugin-flatten-hash && \
+  gem install --no-ri fluent-mixin-config-placeholders resolve-hostname proxifier fluent-plugin-docker_metadata_filter lru_redux kubeclient && \
   mkdir -p ${THROTTLE_CONF_LOCATION} && \
   touch ${THROTTLE_CONF_LOCATION}/settings
 
 ADD fluent.conf /etc/fluent/fluent.conf
-COPY fluent-plugin-secure-forward-0.4.1.gem ${HOME}/
+COPY fluent-plugin-secure-forward-0.4.1.gem fluent-plugin-kubernetes_metadata_filter-0.23.1.gem ${HOME}/
 ADD configs.d/ /etc/fluent/configs.d/
 ADD run.sh generate_throttle_configs.rb \
     fluentd_es_copy_config.conf fluentd_es_ops_copy_config.conf fluentd_unsecure_forward_config.conf \
     ${HOME}/
 
 RUN gem install --local --no-ri ${HOME}/fluent-plugin-secure-forward-0.4.1.gem
+RUN gem install --local --no-ri ${HOME}/fluent-plugin-kubernetes_metadata_filter-0.23.1.gem
 
 WORKDIR ${HOME}
 
