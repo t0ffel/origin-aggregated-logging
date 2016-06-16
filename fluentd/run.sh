@@ -25,7 +25,7 @@ CFG_OUT_DIR=/etc/fluent/configs.d/output
 mkdir -p $CFG_IN_DIR/docker
 mkdir -p $CFG_IN_DIR/syslog
 
-ruby generate_throttle_configs.rb
+#ruby generate_throttle_configs.rb
 
 if [ "$ES_COPY" = "true" ] ; then
     # user wants to split the output of fluentd into two different elasticsearch
