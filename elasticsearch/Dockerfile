@@ -8,11 +8,8 @@ USER 0
 
 ENV HOME=/opt/app-root/src \
   JAVA_VER=1.8.0 \
-  ES_VER=2.4.4 \
-  SG_VER=2.4.4.10 \
-  SG_SSL_VER=2.4.4.19 \
-  ES_CLOUD_K8S_VER=2.4.4 \
-  OSE_ES_VER=2.4.4.3 \
+  ES_VER=5.3.1 \
+  ES_CLOUD_K8S_VER=5.3.1 \
   ES_CONF=/usr/share/elasticsearch/config \
   INSTANCE_RAM=512G \
   NODE_QUORUM=1 \
@@ -32,10 +29,10 @@ ADD elasticsearch.repo /etc/yum.repos.d/elasticsearch.repo
 RUN rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch && \
     yum install -y --setopt=tsflags=nodocs \
                 java-1.8.0-openjdk-headless \
-                elasticsearch-${ES_VER} && \
+                && \
+	yum update -y && \
     yum clean all
 
-ADD sgconfig/ ${HOME}/sgconfig/
 ADD index_templates/ /usr/share/elasticsearch/index_templates/
 ADD index_patterns/ /usr/share/elasticsearch/index_patterns/
 ADD install.sh ${HOME}/

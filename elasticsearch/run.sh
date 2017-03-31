@@ -7,10 +7,10 @@ if [ ${DEBUG:-""} = "true" ]; then
 fi
 
 export KUBERNETES_AUTH_TRYKUBECONFIG="false"
-ES_REST_BASEURL=https://localhost:9200
+ES_REST_BASEURL=http://localhost:9200
 LOG_FILE=elasticsearch_connect_log.txt
-RETRY_COUNT=300		# how many times
-RETRY_INTERVAL=1	# how often (in sec)
+RETRY_COUNT=600		# how many times
+RETRY_INTERVAL=2	# how often (in sec)
 
 retry=$RETRY_COUNT
 max_time=$(( RETRY_COUNT * RETRY_INTERVAL ))	# should be integer
@@ -63,7 +63,7 @@ if [[ "${INSTANCE_RAM:-}" =~ $regex ]]; then
         echo "A minimum of $(($MIN_ES_MEMORY_BYTES/$BYTES_PER_MEG))m is required but only $(($num/$BYTES_PER_MEG))m is available or was specified"
         exit 1
     fi
-    export ES_JAVA_OPTS="${ES_JAVA_OPTS:-} -Xms128M -Xmx$(($num/2/BYTES_PER_MEG))m"
+    export ES_JAVA_OPTS="${ES_JAVA_OPTS:-} -Xms$(($num/2/BYTES_PER_MEG))m -Xmx$(($num/2/BYTES_PER_MEG))m"
     echo "ES_JAVA_OPTS: '${ES_JAVA_OPTS}'"
 else
     echo "INSTANCE_RAM env var is invalid: ${INSTANCE_RAM:-}"
@@ -76,9 +76,6 @@ wait_for_port_open() {
     # test for ES to be up first and that our SG index has been created
     echo -n "Checking if Elasticsearch is ready on $ES_REST_BASEURL "
     while ! response_code=$(curl -s \
-        --cacert $secret_dir/admin-ca \
-        --cert $secret_dir/admin-cert \
-        --key  $secret_dir/admin-key \
         --max-time $max_time \
         -o $LOG_FILE -w '%{response_code}' \
         $ES_REST_BASEURL) || test $response_code != "200"
@@ -116,18 +113,18 @@ seed_searchguard(){
         -tspass tspass \
         -nhnv \
         -icl
-    
+
     if [ $? -eq 0 ]; then
-      echo "Seeded the searchguard ACL index"  
+      echo "Seeded the searchguard ACL index"
     else
-      echo "Error seeding the searchguard ACL index"  
+      echo "Error seeding the searchguard ACL index"
       exit 1
     fi
 }
 
 verify_or_add_index_templates() {
     wait_for_port_open
-    seed_searchguard
+    # seed_searchguard
     # Uncomment this if you want to wait for cluster becoming more stable before index template being pushed in.
     # Give up on timeout and continue...
     # curl -v -s -X GET \
@@ -151,17 +148,18 @@ verify_or_add_index_templates() {
             echo "Index template '$template' already present in ES cluster"
         else
             echo "Create index template '$template'"
-            curl -v -s -X PUT \
-                --cacert $secret_dir/admin-ca \
-                --cert $secret_dir/admin-cert \
-                --key  $secret_dir/admin-key \
-                -d@$template_file \
-                $ES_REST_BASEURL/_template/$template
+#            curl -v -s -X PUT \
+#                --cacert $secret_dir/admin-ca \
+#                --cert $secret_dir/admin-cert \
+#                --key  $secret_dir/admin-key \
+#                -d@$template_file \
+#                $ES_REST_BASEURL/_template/$template
         fi
     done
     shopt -u failglob
 }
 
-verify_or_add_index_templates &
+#verify_or_add_index_templates &
 
-exec /usr/share/elasticsearch/bin/elasticsearch --path.conf=$ES_CONF --security.manager.enabled false
+exec /usr/share/elasticsearch/bin/elasticsearch -Epath.conf=$ES_CONF
+#--security.manager.enabled false
