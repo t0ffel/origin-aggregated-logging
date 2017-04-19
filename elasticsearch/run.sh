@@ -148,18 +148,18 @@ verify_or_add_index_templates() {
             echo "Index template '$template' already present in ES cluster"
         else
             echo "Create index template '$template'"
-            curl -v -s -X PUT \
-                --cacert $secret_dir/admin-ca \
-                --cert $secret_dir/admin-cert \
-                --key  $secret_dir/admin-key \
-                -d@$template_file \
-                $ES_REST_BASEURL/_template/$template
+#            curl -v -s -X PUT \
+#                --cacert $secret_dir/admin-ca \
+#                --cert $secret_dir/admin-cert \
+#                --key  $secret_dir/admin-key \
+#                -d@$template_file \
+#                $ES_REST_BASEURL/_template/$template
         fi
     done
     shopt -u failglob
 }
 
-verify_or_add_index_templates &
+#verify_or_add_index_templates &
 
 exec /usr/share/elasticsearch/bin/elasticsearch -Epath.conf=$ES_CONF
 #--security.manager.enabled false
