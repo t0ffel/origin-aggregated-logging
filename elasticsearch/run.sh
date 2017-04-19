@@ -143,20 +143,20 @@ verify_or_add_index_templates() {
         if [ $response_code == "200" ]; then
             info "Index template '$template' already present in ES cluster"
         else
-            info "Create index template '$template'"
-            curl ${DEBUG:+-v} -s -X PUT \
-                --cacert $secret_dir/admin-ca \
-                --cert $secret_dir/admin-cert \
-                --key  $secret_dir/admin-key \
-                -d@$template_file \
-                $ES_REST_BASEURL/_template/$template
+            echo "Create index template '$template'"
+#            curl -v -s -X PUT \
+#                --cacert $secret_dir/admin-ca \
+#                --cert $secret_dir/admin-cert \
+#                --key  $secret_dir/admin-key \
+#                -d@$template_file \
+#                $ES_REST_BASEURL/_template/$template
         fi
     done
     shopt -u failglob
     info Finished adding index templates
 }
 
-verify_or_add_index_templates &
+#verify_or_add_index_templates &
 
 HEAP_DUMP_LOCATION="${HEAP_DUMP_LOCATION:-/elasticsearch/persistent/hdump.prof}"
 info Setting heap dump location "$HEAP_DUMP_LOCATION"
