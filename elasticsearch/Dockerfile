@@ -8,8 +8,8 @@ USER 0
 
 ENV HOME=/opt/app-root/src \
   JAVA_VER=1.8.0 \
-  ES_VER=5.2.2 \
-  ES_CLOUD_K8S_VER=5.2.2 \
+  ES_VER=5.3.1 \
+  ES_CLOUD_K8S_VER=5.3.1 \
   ES_CONF=/usr/share/elasticsearch/config \
   INSTANCE_RAM=512G \
   NODE_QUORUM=1 \
