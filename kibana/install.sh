@@ -11,8 +11,8 @@ rm kibana-${KIBANA_VER}-x86_64.rpm
 
 # Kibana starts up slowly because it tries to optimize and cache bundles
 # so we start it up as part of install and then stop it
-mv ${KIBANA_HOME}/config/kibana.yml ${KIBANA_HOME}/config/hidden_kibana.yml
-touch ${KIBANA_HOME}/config/kibana.yml
+#mv ${KIBANA_HOME}/config/kibana.yml ${KIBANA_HOME}/config/hidden_kibana.yml
+#touch ${KIBANA_HOME}/config/kibana.yml
 
 #${KIBANA_HOME}/bin/kibana > ${KIBANA_HOME}/kibana.out &
 #pid=$!
