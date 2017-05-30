@@ -4,7 +4,7 @@ MAINTAINER OpenShift Development <dev@lists.openshift.redhat.com>
 
 EXPOSE 5601
 
-ENV KIBANA_VER=5.2.2 \
+ENV KIBANA_VER=5.3.1 \
     ES_HOST=localhost \
     ES_PORT=9200 \
     HOME=/opt/app-root/src \
