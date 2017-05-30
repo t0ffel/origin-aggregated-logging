@@ -12,7 +12,7 @@
 # server.maxPayloadBytes: 1048576
 
 # The Elasticsearch instance to use for all your queries.
-elasticsearch.url: https://es_host:es_port
+elasticsearch.url: http://es_host:es_port
 
 # preserve_elasticsearch_host true will send the hostname specified in `elasticsearch`. If you set it to false,
 # then the host you use to connect to *this* Kibana instance will be sent.
@@ -37,12 +37,12 @@ elasticsearch.url: https://es_host:es_port
 # server.ssl.key: /path/to/your/server.key
 
 # Optional setting to validate that your Elasticsearch backend uses the same key files (PEM formatted)
-elasticsearch.ssl.cert: /etc/kibana/keys/cert
-elasticsearch.ssl.key: /etc/kibana/keys/key
+#elasticsearch.ssl.cert: /etc/kibana/keys/cert
+#elasticsearch.ssl.key: /etc/kibana/keys/key
 
 # If you need to provide a CA certificate for your Elasticsearch instance, put
 # the path of the pem file here.
-elasticsearch.ssl.ca: /etc/kibana/keys/ca
+#elasticsearch.ssl.ca: /etc/kibana/keys/ca
 
 # Set to false to have a complete disregard for the validity of the SSL
 # certificate.
