@@ -12,7 +12,7 @@ rm elasticsearch-${ES_VER}.rpm
 ln -s /usr/share/elasticsearch /usr/share/java/elasticsearch
 
 /usr/share/elasticsearch/bin/elasticsearch-plugin install io.fabric8:elasticsearch-cloud-kubernetes:${ES_CLOUD_K8S_VER}
-
+/usr/share/elasticsearch/bin/elasticsearch-plugin install -b com.floragunn:search-guard-5:${SG_VER}
 
 mkdir /elasticsearch
 mkdir -p $ES_CONF
