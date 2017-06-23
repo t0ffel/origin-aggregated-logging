@@ -93,74 +93,10 @@ wait_for_port_open() {
         fi
     done
 
-seed_searchguard(){
-    /usr/share/elasticsearch/plugins/search-guard-2/tools/sgadmin.sh \
-        -cd ${HOME}/sgconfig \
-        -i .searchguard.${HOSTNAME} \
-        -ks /etc/elasticsearch/secret/searchguard.key \
-        -kst JKS \
-        -kspass kspass \
-        -ts /etc/elasticsearch/secret/searchguard.truststore \
-        -tst JKS \
-        -tspass tspass \
-        -nhnv \
-        -icl
-
-    if [ $? -eq 0 ]; then
-      echo "Seeded the searchguard ACL index"
-    else
-      echo "Error seeding the searchguard ACL index"
-      exit 1
-    fi
-    cat $LOG_FILE
-    rm -f $LOG_FILE
-    exit 1
-}
-
-verify_or_add_index_templates() {
-    wait_for_port_open
-    # seed_searchguard
-    # Give up on timeout and continue...
-    # Uncomment this if you want to wait for cluster becoming more stable before index template being pushed in.
-    # curl -v -s -X GET \
-    #     --cacert $secret_dir/admin-ca \
-    #     --cert $secret_dir/admin-cert \
-    #     --key  $secret_dir/admin-key \
-    #     "$ES_REST_BASEURL/_cluster/health?wait_for_status=yellow&timeout=${max_time}s"
-
-    info Adding index templates
-    shopt -s failglob
-    for template_file in /usr/share/elasticsearch/index_templates/*.json
-    do
-        template=`basename $template_file`
-        # Check if index template already exists
-        response_code=$(curl ${DEBUG:+-v} -s -X HEAD \
-            --cacert $secret_dir/admin-ca \
-            --cert $secret_dir/admin-cert \
-            --key  $secret_dir/admin-key \
-            -w '%{response_code}' \
-            $ES_REST_BASEURL/_template/$template)
-        if [ $response_code == "200" ]; then
-            info "Index template '$template' already present in ES cluster"
-        else
-            echo "Create index template '$template'"
-#            curl -v -s -X PUT \
-#                --cacert $secret_dir/admin-ca \
-#                --cert $secret_dir/admin-cert \
-#                --key  $secret_dir/admin-key \
-#                -d@$template_file \
-#                $ES_REST_BASEURL/_template/$template
-        fi
-    done
-    shopt -u failglob
-    info Finished adding index templates
-}
-
-#verify_or_add_index_templates &
+cp /usr/share/elasticsearch/config/* /etc/elasticsearch/
 
 HEAP_DUMP_LOCATION="${HEAP_DUMP_LOCATION:-/elasticsearch/persistent/hdump.prof}"
 info Setting heap dump location "$HEAP_DUMP_LOCATION"
 export JAVA_OPTS="${JAVA_OPTS:-} -XX:HeapDumpPath=$HEAP_DUMP_LOCATION"
 
 exec /usr/share/elasticsearch/bin/elasticsearch -Epath.conf=$ES_CONF
-#--security.manager.enabled false
