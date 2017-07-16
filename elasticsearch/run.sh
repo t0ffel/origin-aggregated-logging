@@ -92,6 +92,7 @@ wait_for_port_open() {
             break
         fi
     done
+}
 
 cp /usr/share/elasticsearch/config/* /etc/elasticsearch/
 
