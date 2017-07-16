@@ -9,9 +9,7 @@ USER 0
 ENV HOME=/opt/app-root/src \
   JAVA_VER=1.8.0 \
   ES_VER=5.4.0 \
-  ES_CLOUD_K8S_VER=5.4.0 \
-  SG_VER=5.4.0-12 \
-  ES_CONF=/etc/elasticsearch \
+  SG_VER=5.4.0-14 \
   INSTANCE_RAM=512G \
   NODE_QUORUM=1 \
   RECOVER_AFTER_NODES=1 \
@@ -25,23 +23,21 @@ LABEL io.k8s.description="Elasticsearch container to serve as EFK aggregated log
   io.openshift.expose-services="9200:https, 9300:https" \
   io.openshift.tags="logging,elasticsearch"
 
-ADD elasticsearch.repo /etc/yum.repos.d/elasticsearch.repo
 # install the RPMs in a separate step so it can be cached
-RUN rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch && \
-    yum install -y --setopt=tsflags=nodocs \
+RUN yum install -y --setopt=tsflags=nodocs \
                 java-1.8.0-openjdk-headless \
-                && \
+                unzip \
+                PyYAML && \
     yum update -y && \
     yum clean all
 
-ADD index_templates/ /usr/share/elasticsearch/index_templates/
-ADD index_patterns/ /usr/share/elasticsearch/index_patterns/
-ADD probe/ /usr/share/elasticsearch/probe/
+#ADD ../index_templates/ /usr/share/elasticsearch/index_templates/
+#ADD ../index_patterns/ /usr/share/elasticsearch/index_patterns/
+ADD sgconfig/ ${HOME}/sgconfig/
 ADD install.sh ${HOME}/
 RUN ${HOME}/install.sh
 ADD run.sh ${HOME}/
-COPY esinit/utils/** /usr/local/bin/
-RUN ln -s /usr/local/bin/logging ${HOME}/logging
+COPY utils/** /usr/local/bin/
 
 WORKDIR ${HOME}
 USER 1000
