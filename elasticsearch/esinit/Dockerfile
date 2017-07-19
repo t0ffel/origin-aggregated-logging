@@ -9,7 +9,7 @@ USER 0
 ENV HOME=/opt/app-root/src \
   JAVA_VER=1.8.0 \
   ES_VER=5.4.0 \
-  SG_VER=5.4.0-12 \
+  SG_VER=5.4.0-14 \
   INSTANCE_RAM=512G \
   NODE_QUORUM=1 \
   RECOVER_AFTER_NODES=1 \

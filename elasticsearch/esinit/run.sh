@@ -14,7 +14,7 @@ info Begin Elasticsearch init script
 export KUBERNETES_AUTH_TRYKUBECONFIG=${KUBERNETES_AUTH_TRYKUBECONFIG:-"false"}
 ES_REST_BASEURL=https://${ES_API_SERVICE:-localhost}:9200
 LOG_FILE=${LOG_FILE:-elasticsearch_connect_log.txt}
-RETRY_COUNT=${RETRY_COUNT:-300}		# how many times
+RETRY_COUNT=${RETRY_COUNT:-3}		# how many times
 RETRY_INTERVAL=${RETRY_INTERVAL:-1}	# how often (in sec)
 
 retry=$RETRY_COUNT
