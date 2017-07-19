@@ -10,6 +10,7 @@ sg_role_kibana:
 sg_role_fluentd:
   cluster:
     - indices:data/write/bulk
+    - CLUSTER_MONITOR
   indices:
     '*':
       '*':
