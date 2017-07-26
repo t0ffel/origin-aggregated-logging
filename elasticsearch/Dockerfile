@@ -8,9 +8,10 @@ USER 0
 
 ENV HOME=/opt/app-root/src \
   JAVA_VER=1.8.0 \
-  ES_VER=5.3.1 \
-  ES_CLOUD_K8S_VER=5.3.1 \
-  ES_CONF=/usr/share/elasticsearch/config \
+  ES_VER=5.4.0 \
+  ES_CLOUD_K8S_VER=5.4.0 \
+  SG_VER=5.4.0-12 \
+  ES_CONF=/etc/elasticsearch \
   INSTANCE_RAM=512G \
   NODE_QUORUM=1 \
   RECOVER_AFTER_NODES=1 \
@@ -30,7 +31,6 @@ RUN rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch && \
     yum install -y --setopt=tsflags=nodocs \
                 java-1.8.0-openjdk-headless \
                 PyYAML && \
-                && \
     yum update -y && \
     yum clean all
 
