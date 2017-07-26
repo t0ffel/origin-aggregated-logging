@@ -9,4 +9,7 @@ fi
 if [ -z "${PROMETHEUS_EXPORTER_URL:-}" ] ; then
     PROMETHEUS_EXPORTER_URL=https://distfiles.compuscene.net/elasticsearch/elasticsearch-prometheus-exporter-${PROMETHEUS_EXPORTER_VER}.zip
 fi
-es_plugins=($ES_CLOUD_K8S_URL $PROMETHEUS_EXPORTER_URL)
+if [ -z "${SG_URL:-}" ] ; then
+    SG_URL=com.floragunn:search-guard-5:${SG_VER}
+fi
+es_plugins=($ES_CLOUD_K8S_URL $PROMETHEUS_EXPORTER_URL $SG_URL)
