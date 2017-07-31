@@ -10,7 +10,7 @@ source ${HOME}/prep-install.${RELEASE_STREAM}
 echo "ES plugins: ${es_plugins[@]}"
 for es_plugin in ${es_plugins[@]}
 do
-  ${ES_HOME}/bin/elasticsearch-plugin install -b $es_plugin
+  ${ES_HOME}/bin/elasticsearch-plugin install  $es_plugin
 done
 
 
