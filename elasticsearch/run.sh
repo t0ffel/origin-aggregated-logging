@@ -14,7 +14,7 @@ info Begin Elasticsearch startup script
 export KUBERNETES_AUTH_TRYKUBECONFIG=${KUBERNETES_AUTH_TRYKUBECONFIG:-"false"}
 ES_REST_BASEURL=${ES_REST_BASEURL:-https://localhost:9200}
 LOG_FILE=${LOG_FILE:-elasticsearch_connect_log.txt}
-RETRY_COUNT=${RETRY_COUNT:-30}		# how many times
+RETRY_COUNT=${RETRY_COUNT:-300}		# how many times
 RETRY_INTERVAL=${RETRY_INTERVAL:-1}	# how often (in sec)
 
 retry=$RETRY_COUNT
@@ -80,7 +80,7 @@ wait_for_port_open() {
     rm -f $LOG_FILE
     # test for ES to be up first and that our SG index has been created
     echo -n "Checking if Elasticsearch is ready on $ES_REST_BASEURL "
-    while ! response_code=$(curl ${DEBUG:+-v} -s -X HEAD \
+    while ! response_code=$(curl ${DEBUG:+-v} -s --head \
         --cacert $secret_dir/admin-ca \
         --cert $secret_dir/admin-cert \
         --key  $secret_dir/admin-key \
@@ -115,7 +115,7 @@ verify_or_add_index_templates() {
         template=`basename $template_file`
         # Check if index template already exists
 	info Adding template $template
-        response_code=$(curl ${DEBUG:+-v} -s -X GET \
+        response_code=$(curl ${DEBUG:+-v} -s --head \
             --cacert $secret_dir/admin-ca \
             --cert $secret_dir/admin-cert \
             --key  $secret_dir/admin-key \
