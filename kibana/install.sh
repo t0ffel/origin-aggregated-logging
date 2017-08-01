@@ -6,7 +6,7 @@ set -o pipefail
 
 mkdir -p ${HOME}
 cd ${HOME}/
-#yum -y install https://artifacts.elastic.co/downloads/kibana/kibana-${KIBANA_VER}-x86_64.rpm
+yum -y install https://artifacts.elastic.co/downloads/kibana/kibana-${KIBANA_VER}-x86_64.rpm
 
 chmod -R og+w "${KIBANA_CONF_DIR}"
 kibana_plugin_dir=${KIBANA_HOME}/installedPlugins/origin-kibana/
