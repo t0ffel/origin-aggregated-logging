@@ -28,13 +28,14 @@ fi
 # and keep the cluster rollout test clean.
 # TODO: This will not be necessary when StatefulSets
 # are used to deploy the cluster instead.
-es_dcs="$( oc get deploymentconfigs --namespace logging --selector component=es -o jsonpath='{.items[*].metadata.name}' | grep -E "^logging-es-(data-)?(master|client)-[a-zA-Z0-9]{8}" )"
+es_dcs="$( get_es_dcs es )"
 if [[ "$( wc -w <<<"${es_dcs}" )" -ne 1 ]]; then
 	os::log::fatal "Expected to find one Elasticsearch DeploymentConfig, got: '${es_dcs:-"<none>"}'"
 fi
+
 oal_expected_deploymentconfigs+=( ${es_dcs} )
 if [[ $# -eq 1 ]]; then
-	es_ops_dcs="$( oc get deploymentconfigs --namespace logging --selector component=es-ops -o jsonpath='{.items[*].metadata.name}' | grep -E "^logging-es-ops-(data-)?(master|client)-[a-zA-Z0-9]{8}" )"
+	es_ops_dcs="$( get_es_dcs es-ops )"
 	if [[ "$( wc -w <<<"${es_ops_dcs}" )" -ne 1 ]]; then
 		os::log::fatal "Expected to find one OPS Elasticsearch DeploymentConfig, got: '${es_ops_dcs:-"<none>"}'"
 	fi

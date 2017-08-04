@@ -361,9 +361,27 @@ wait_for_pod_ACTION() {
     return 0
 }
 
+function get_es_dcs() {
+  # $1 - cluster name postfix
+  if [ -z $(oc get dc -l cluster-name=logging-${1},es-node-role=clientdata --no-headers | awk '{print $1}') ] ; then
+    oc get deploymentconfigs --namespace logging --selector component=${1} -o jsonpath='{.items[*].metadata.name}' | grep -E "^logging-${1}-(data-)?(master|client)-[a-zA-Z0-9]{8}"
+  else
+    oc get deploymentconfigs --namespace logging --selector cluster-name=logging-${1},es-node-role=clientdata -o jsonpath='{.items[*].metadata.name}' | grep -E "^logging-${1}-clientdata-[0-9]"
+  fi
+}
+
+function get_es_pod() {
+    # $1 - cluster name postfix
+    if [ -z $(oc get dc -l cluster-name=logging-${1},es-node-role=clientdata --no-headers | awk '{print $1}') ] ; then
+      oc get pods -l component=${1} --no-headers | awk '$3 == "Running" {print $1}'
+    else
+      oc get pods -l cluster-name=logging-${1},es-node-role=clientdata --no-headers | awk '$3 == "Running" {print $1}'
+    fi
+}
+
 function get_running_pod() {
     # $1 is component for selector
-    oc get pods -l component=$1 | awk -v sel=$1 '$1 ~ sel && $3 == "Running" {print $1}'
+    oc get pods -l component=$1 --no-headers | awk '$3 == "Running" {print $1}'
 }
 
 function get_latest_pod() {
@@ -562,8 +580,8 @@ function test_count_err() {
 function wait_for_fluentd_to_catch_up() {
     local starttime=`date +%s`
     os::log::debug START wait_for_fluentd_to_catch_up at `date -u --rfc-3339=ns`
-    local es_pod=`get_running_pod es`
-    local es_ops_pod=`get_running_pod es-ops`
+    local es_pod=`get_es_pod es`
+    local es_ops_pod=`get_es_pod es-ops`
     if [ -z "$es_ops_pod" ] ; then
         es_ops_pod=$es_pod
     fi

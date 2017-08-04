@@ -90,7 +90,7 @@ if [ "$USE_LOGGER" = "true" ] ; then
     time logger -i -p local6.info -t $prefix -f $loggerfile
     echo finished logger at `date`
 else
-    cat $loggerfile | sudo tee -a /var/log/messages > /dev/null    
+    cat $loggerfile | sudo tee -a /var/log/messages > /dev/null
     comparefile=$justthemessage
 fi
 
@@ -100,7 +100,7 @@ count_ge_nmessages() {
     curcount=`oc exec $kpod -- curl -s -k --cert /etc/kibana/keys/cert --key /etc/kibana/keys/key \
             https://logging-es${ops}:9200/${INDEX_PREFIX}.operations*/_count\?q=message:$prefix | \
             python -c 'import json, sys; print json.loads(sys.stdin.read())["count"]'`
-    # output: time count 
+    # output: time count
     echo $(date +%s) $curcount
     test $curcount -ge $NMESSAGES
 }
