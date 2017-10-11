@@ -145,9 +145,7 @@ verify_or_add_index_templates() {
     info Finished adding index templates
 }
 
-if [ $IS_MASTER == "false" ]; then
-  verify_or_add_index_templates &
-fi
+verify_or_add_index_templates &
 
 cp /usr/share/java/elasticsearch/config/* /etc/elasticsearch/
 
