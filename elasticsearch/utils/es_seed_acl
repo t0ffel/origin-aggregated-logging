@@ -18,12 +18,10 @@ while ! ${ES_HOME}/plugins/search-guard-5/tools/sgadmin.sh \
     -ks /etc/elasticsearch/secret/searchguard.key \
     -kst JKS \
     -kspass kspass \
-    -ksalias ${CLUSTER_NAME}-cluster \
     -ts /etc/elasticsearch/secret/searchguard.truststore \
     -tst JKS \
     -tspass tspass \
     -nhnv \
-    -h ${CLUSTER_NAME}-cluster \
     -cn ${CLUSTER_NAME} \
     ${DEBUG:+-dg} && [ ${now} -lt ${MAX_WAIT_SEED} ]
 do
