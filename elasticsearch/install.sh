@@ -27,7 +27,7 @@ chmod +x ${ES_HOME}/plugins/search-guard-5/tools/sgadmin.sh
 
 # document needed by sg plugin to properly initialize
 passwd=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 1)
-cat > ${HOME}/sgconfig/sg_internal_users.yml << CONF
+cat >> ${HOME}/sgconfig/sg_internal_users.yml << CONF
 ---
   $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1):
     hash: $passwd

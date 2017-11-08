@@ -2,6 +2,10 @@ sg_role_kibana:
   users:
     - 'CN=system.logging.kibana,OU=OpenShift,O=Logging'
 
+sg_logstash:
+  backendroles:
+    - logstash
+
 sg_role_fluentd:
   users:
     - 'CN=system.logging.fluentd,OU=OpenShift,O=Logging'
