@@ -1,0 +1,6 @@
+logstash:
+  readonly: true
+  hash: $2a$12$u1ShR4l4uBS3Uv59Pa2y5.1uQuZBrZtmNfqB3iM/.jL0XoV9sghS2
+  roles:
+    - logstash
+
