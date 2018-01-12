@@ -17,12 +17,13 @@ done
 fluentdargs="--no-supervisor"
 if [[ $VERBOSE ]]; then
   set -ex
-  fluentdargs="$fluentdargs -vv"
+  fluentdargs="-vv"
   echo ">>>>>> ENVIRONMENT VARS <<<<<"
   env | sort
   echo ">>>>>>>>>>>>><<<<<<<<<<<<<<<<"
 else
   set -e
+  fluentdargs=
 fi
 
 #NOTE: USE_CRIO variable used in generate_throttle_configs.rb as well
@@ -284,8 +285,7 @@ if [[ "${USE_REMOTE_SYSLOG:-}" = "true" ]] ; then
     # The symlink is a workaround for https://github.com/openshift/origin-aggregated-logging/issues/604
     found=
     for file in /usr/share/gems/gems/fluent-plugin-remote-syslog-*/lib/fluentd/plugin/*.rb ; do
-        bname=$(basename $file)
-        if [ ! -e "/etc/fluent/plugin/$bname" -a -f "$file" ] ; then
+        if [ -f "$file" ] ; then
             ln -s $file /etc/fluent/plugin/
             found=true
         fi
@@ -293,8 +293,7 @@ if [[ "${USE_REMOTE_SYSLOG:-}" = "true" ]] ; then
     if [ -z "${found:-}" ] ; then
         # not found in rpm location - look in alternate location
         for file in /opt/app-root/src/gems/fluent-plugin-remote-syslog*/lib/fluentd/plugin/*.rb ; do
-            bname=$(basename $file)
-            if [ ! -e "/etc/fluent/plugin/$bname" -a -f "$file" ] ; then
+            if [ -f "$file" ] ; then
                 ln -s $file /etc/fluent/plugin/
             fi
         done
