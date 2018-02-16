@@ -34,6 +34,10 @@ def get_cont_pos_file_name(name)
   return "/var/log/es-container-#{name}.log.pos"
 end
 
+def get_json_pos_file_name(name)
+  return "/var/log/es-container-#{name}.log.pos"
+end
+
 def get_file_name(name)
   ## file_name follows pattern: gen-#{name}-YYYYMMDD.conf ##
 
@@ -102,13 +106,13 @@ def seed_file(file_name, project)
   end
 
   File.open(file_name, 'w') { |file|
-    @log.debug "Seeding #{file_name} with path: '#{path}' and pos_file: '#{json_pos_file}'"
+    @log.debug "Seeding #{file_name} with path: '#{path}' and pos_file: '#{pos_file}'"
     file.write(<<-CONF)
 <source>
   @type tail
   @label @INGRESS
   path #{path}
-  pos_file #{json_pos_file}
+  pos_file #{pos_file}
     CONF
   }
 
@@ -218,6 +222,7 @@ rescue Exception => ex
 end
 
 excluded = Array.new
+throttling = false
 # We do not yet support throttling logs read from the journal
 # So we don't support throttling operations logs here - use the journald
 # journald.conf to do that
@@ -239,6 +244,7 @@ parsed.each { |name,options|
     if validate(k,v)
       write_to_file(name, k, v)
       needclose = true
+      throttling = true if !throttling
 
       if name.eql?('.operations')
         @log.debug("Found throttling settings for operations. Excluding projects: #{DEFAULT_OPS_PROJECTS}")
@@ -256,5 +262,7 @@ parsed.each { |name,options|
   # if file was created, close it here
   close_file(name) if needclose
 }
+
+revert_throttle if !throttling
 
 create_default_docker(excluded)
