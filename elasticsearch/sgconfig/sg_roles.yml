@@ -41,6 +41,26 @@ sg_logstash:
       '*':
         - CRUD
         - CREATE_INDEX
+    'umb-*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
+    'shipshift-*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
+    'fedoraproject-*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
+    'taskotron-*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
+    'centosci-*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
 
 sg_role_curator:
   cluster:
