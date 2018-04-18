@@ -27,6 +27,13 @@ timeouted=false
 mkdir -p /elasticsearch/$CLUSTER_NAME
 secret_dir=/etc/elasticsearch/secret
 
+# set Elasticsearch node name
+if [[ "${IS_MASTER}" == 1 ]] ; then
+    export NODE_NAME=${POD_NAME}
+else
+    export NODE_NAME=${DC_NAME}
+fi
+
 BYTES_PER_MEG=$((1024*1024))
 BYTES_PER_GIG=$((1024*${BYTES_PER_MEG}))
 
