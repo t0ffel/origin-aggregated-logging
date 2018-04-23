@@ -6,6 +6,9 @@ sg_role_kibana:
     '?kibana':
       '*':
         - INDICES_ALL
+    '*':
+      '*':
+        - READ
 
 sg_role_prometheus:
   cluster:
