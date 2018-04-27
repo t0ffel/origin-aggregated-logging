@@ -61,6 +61,10 @@ sg_logstash:
       '*':
         - CRUD
         - CREATE_INDEX
+    'customer_feedback*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
 
 sg_role_curator:
   cluster:
