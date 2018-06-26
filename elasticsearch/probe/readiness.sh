@@ -19,7 +19,7 @@
 # TODO: try re-use code from ./run.sh
 ES_REST_BASEURL=https://localhost:9200
 EXPECTED_RESPONSE_CODE=200
-EXPECTED_SG_DOCUMENT_COUNT=5
+EXPECTED_SG_DOCUMENT_COUNT=6
 secret_dir=/etc/elasticsearch/secret
 max_time=${READINESS_PROBE_TIMEOUT:-30}
 

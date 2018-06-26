@@ -157,6 +157,7 @@ verify_or_add_index_templates() {
         else
             info "Create index template '$template'"
             curl ${DEBUG:+-v} -s -X PUT \
+				-H 'Content-Type: application/json' \
                 --cacert $secret_dir/admin-ca \
                 --cert $secret_dir/admin-cert \
                 --key  $secret_dir/admin-key \
@@ -177,4 +178,4 @@ info Setting heap dump location "$HEAP_DUMP_LOCATION"
 export ES_JAVA_OPTS="${ES_JAVA_OPTS:-} -XX:HeapDumpPath=$HEAP_DUMP_LOCATION -Dsg.display_lic_none=false"
 info "ES_JAVA_OPTS: '${ES_JAVA_OPTS}'"
 
-exec ${ES_HOME}/bin/elasticsearch -E path.conf=$ES_CONF
+exec ${ES_HOME}/bin/elasticsearch
