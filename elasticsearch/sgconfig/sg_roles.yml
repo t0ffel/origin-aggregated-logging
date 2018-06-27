@@ -2,6 +2,7 @@ sg_role_kibana:
   cluster:
     - CLUSTER_MONITOR
     - CLUSTER_COMPOSITE_OPS
+    - indices:admin/template*
   indices:
     '?kibana':
       '*':
