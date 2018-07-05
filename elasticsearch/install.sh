@@ -20,12 +20,13 @@ fi
 
 mkdir /elasticsearch
 mkdir -p $ES_CONF
-chmod -R og+w $ES_CONF ${ES_HOME} ${HOME} /elasticsearch
-chmod -R o+rx /etc/elasticsearch
 chmod +x ${ES_HOME}/plugins/search-guard-6/tools/sgadmin.sh
-chmod o+r /etc/sysconfig/elasticsearch
-chmod o+rwx /var/log/elasticsearch
-chmod o+rwx /var/lib/elasticsearch
+chgrp -R 0 ${ES_CONF} ${ES_HOME}        \
+           ${HOME} /elasticsearch       \
+           /etc/sysconfig/elasticsearch \
+           /var/log/elasticsearch       \
+           /var/lib/elasticsearch
+chmod -R g+w ${ES_CONF} ${ES_HOME} ${HOME} /elasticsearch
 
 # document needed by sg plugin to properly initialize
 passwd=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 1)
