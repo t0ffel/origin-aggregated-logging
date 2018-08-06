@@ -17,3 +17,7 @@ sg_role_curator:
 sg_role_admin:
   users:
     - 'CN=system.admin,OU=OpenShift,O=Logging'
+
+sg_role_str:
+  users:
+    - 'CN=system.logging.str,OU=OpenShift,O=Logging'

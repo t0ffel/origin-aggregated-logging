@@ -97,3 +97,17 @@ sg_project_operations:
         - indices:admin/mappings/fields/get*
         - indices:admin/validate/query*
         - indices:admin/get*
+
+sg_role_str:
+  cluster:
+    - CLUSTER_MONITOR
+    - CLUSTER_COMPOSITE_OPS
+    - indices:admin/template/get
+    - indices:admin/template/put
+    - indices:data/write/bulk
+  indices:
+    'str-*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
+
