@@ -102,6 +102,7 @@ sg_role_str:
   cluster:
     - CLUSTER_MONITOR
     - CLUSTER_COMPOSITE_OPS
+    - CREATE_INDEX
     - indices:admin/template/get
     - indices:admin/template/put
     - indices:data/write/bulk
