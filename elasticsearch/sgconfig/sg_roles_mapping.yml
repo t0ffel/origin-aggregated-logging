@@ -21,3 +21,7 @@ sg_role_admin:
 sg_role_str:
   users:
     - 'CN=system.logging.str,OU=OpenShift,O=Logging'
+
+sg_role_metaxor:
+  users:
+    - 'CN=system.logging.metaxor,OU=OpenShift,O=Logging'
