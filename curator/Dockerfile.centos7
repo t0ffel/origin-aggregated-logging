@@ -8,7 +8,6 @@ ENV HOME=/opt/app-root/src \
     ES_CA=/etc/curator/keys/ca \
     ES_CLIENT_CERT=/etc/curator/keys/cert \
     ES_CLIENT_KEY=/etc/curator/keys/key \
-    CURATOR_CONF_LOCATION=/etc/curator/settings/config.yaml \
     CURATOR_CONF_FILE=/etc/curator/settings/curator5.yaml \
     CURATOR_ACTIONS_FILE=/etc/curator/settings/actions.yaml \
     CURATOR_LOG_LEVEL=ERROR \
@@ -28,9 +27,9 @@ RUN yum install -y --setopt=tsflags=nodocs \
 
 COPY run.sh lib/oalconverter/* ${HOME}/
 
-RUN mkdir -p $(dirname "$CURATOR_CONF_LOCATION") && \
-    touch ${CURATOR_CONF_LOCATION} && \
-    chmod -R u+x ${HOME} && \
+#RUN mkdir -p $(dirname "$CURATOR_CONF_LOCATION") && \
+#    touch ${CURATOR_CONF_LOCATION} && \
+RUN chmod -R u+x ${HOME} && \
     chgrp -R 0 ${HOME} && \
     chmod -R g=u ${HOME}
 
